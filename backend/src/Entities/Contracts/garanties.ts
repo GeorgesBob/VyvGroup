@@ -1,0 +1,1 @@
+export type GarantieType = 'hospitalisation' | 'dentaire'|'optique'|'maternité'|'prévention';

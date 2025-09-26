@@ -1,0 +1,11 @@
+firstName,lastName,birthDate,email,password,phoneNumber,statut
+Alice,Martin,1990-05-14,alice.martin@example.com,hashedpassword1,0612345678,employee
+Bruno,Durand,1985-08-22,bruno.durand@example.com,hashedpassword2,0698765432,adherent
+Chloé,Bernard,1993-02-10,chloe.bernard@example.com,hashedpassword3,0611223344,employee
+David,Petit,1988-12-01,david.petit@example.com,hashedpassword4,0677889900,adherent
+Emma,Robert,1995-07-30,emma.robert@example.com,hashedpassword5,0655443322,employee
+François,Moreau,1982-03-17,francois.moreau@example.com,hashedpassword6,0644221100,adherent
+Isabelle,Lefebvre,1991-09-25,isabelle.lefebvre@example.com,hashedpassword7,0622334455,employee
+Julien,Dubois,1986-11-05,julien.dubois@example.com,hashedpassword8,0677332299,adherent
+Karine,Laurent,1994-04-18,karine.laurent@example.com,hashedpassword9,0633445566,employee
+Louis,Simon,1989-01-07,louis.simon@example.com,hashedpassword10,0611998877,adherent

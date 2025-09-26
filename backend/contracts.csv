@@ -1,0 +1,11 @@
+typeContrat,dateDebut,dateFin,garantie,prixMensuel,userId
+Santé,2023-01-01,2024-01-01,Bronze,29.99,1
+Auto,2022-06-15,2023-06-14,Or,59.99,2
+Habitation,2024-02-01,2025-02-01,Argent,45.50,3
+Santé,2023-07-01,2024-07-01,Or,39.90,4
+Auto,2022-09-10,2023-09-09,Bronze,25.00,5
+Habitation,2021-05-20,2022-05-19,Or,75.99,6
+Santé,2023-03-01,2024-03-01,Argent,34.90,7
+Auto,2024-01-15,2025-01-14,Bronze,27.50,8
+Habitation,2022-11-01,2023-11-01,Or,80.00,9
+Santé,2023-12-01,2024-12-01,Argent,32.99,10
