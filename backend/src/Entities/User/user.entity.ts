@@ -23,7 +23,7 @@ export class User {
     @Column()
     birthDate:Date 
     
-    @Column()
+    @Column({unique:true})
     email: string
 
     @Column()
@@ -38,17 +38,17 @@ export class User {
     @Column({ nullable: true })
     jwtId: number;
     
-    @OneToOne(() => Jwt, (jwt) => jwt.user, { cascade: false })
+    @OneToOne(() => Jwt, (jwt) => jwt.user,)
     @JoinColumn({ name: 'jwtId' })
     jwt?: Jwt;
     
     @Column({ nullable: true })
     activateId: number;
     
-    @OneToOne(() => Activate, (activate) => activate.user, { cascade: false })
+    @OneToOne(() => Activate, (activate) => activate.user)
     @JoinColumn({ name: 'activateId' })
     activate?: Activate;
-    
+
     @OneToMany(() => Contract, contract => contract.user)
     contracts: [];
 

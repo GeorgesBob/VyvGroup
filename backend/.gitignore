@@ -19,14 +19,13 @@ lerna-debug.log*
 # OS
 .DS_Store
 Thumbs.db
-
 # Tests & coverage
 /coverage
 /.nyc_output
 
 # IDEs and editors
 /.idea
-.vscode/
+../../vscode/
 /.project
 .classpath
 .c9/
@@ -35,6 +34,7 @@ Thumbs.db
 *.sublime-workspace
 
 # dotenv environment variable files
+.dev.env
 .env
 .env.*
 !.env.example   # <-- utile si tu veux commit un modèle

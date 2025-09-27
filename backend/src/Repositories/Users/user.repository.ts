@@ -32,7 +32,7 @@ export class UserRepository extends Repository<User>{
     
       public async updateOne(
         id: number,
-        updateUserDto: UpdateUsersDto,
+        updateUserDto: Partial<UpdateUsersDto>,
       ): Promise<User | undefined> {
         const user = await this.findById(id);
         if (!user) return undefined;
