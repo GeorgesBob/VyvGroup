@@ -31,7 +31,7 @@ async function seedContractsFromCSV(filePath: string) {
       .on('end', async () => {
         try {
           for (const row of results) {
-            const user = await userRepo.findOneBy({ id: parseInt(row.userId) });
+            const user = await userRepo.findOneBy({ idUser: parseInt(row.userId) });
             if (!user) {
               console.warn(`⚠️ Aucun utilisateur trouvé pour userId=${row.userId}, contrat ignoré`);
               continue;

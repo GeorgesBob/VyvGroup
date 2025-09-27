@@ -1,4 +1,4 @@
-import {Entity,Column, PrimaryGeneratedColumn, ManyToOne} from 'typeorm'
+import {Entity,Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn} from 'typeorm'
 import { User } from '../User/user.entity'
 import { GarantieType } from './garanties'
 
@@ -6,7 +6,7 @@ import { GarantieType } from './garanties'
 export class Contract {
 
     @PrimaryGeneratedColumn()
-    id:number
+    idContract:number
 
     @Column()
     typeContrat:string
@@ -24,6 +24,7 @@ export class Contract {
     prixMensuel:string
 
     @ManyToOne(() => User, (user) => user.contracts)
+    @JoinColumn({name: 'userId'})
     user: User
 
 

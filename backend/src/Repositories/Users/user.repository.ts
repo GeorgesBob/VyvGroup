@@ -18,16 +18,16 @@ export class UserRepository extends Repository<User>{
       }
 
       public async findAll(): Promise<User[]> {
-        return this.find();
+        return this.userRepository.find();
       }
 
       public async findById(id: number): Promise<User | null> {
-        return this.findOneBy({ id: id });
+        return this.userRepository.findOneBy({ idUser: id });
       }
     
       public async store(user: CreateUsersDto): Promise<User> {
-        const newUser = this.create(user);
-        return this.save(newUser);
+        const newUser = this.userRepository.create(user);
+        return this.userRepository.save(newUser);
       }
     
       public async updateOne(
@@ -36,12 +36,18 @@ export class UserRepository extends Repository<User>{
       ): Promise<User | undefined> {
         const user = await this.findById(id);
         if (!user) return undefined;
+      
+        // Prevent empty update
+        if (!updateUserDto || Object.keys(updateUserDto).length === 0) {
+          throw new Error("No fields provided for update");
+        }
+      
         Object.assign(user, updateUserDto);
-        return this.save(user);
+        return this.userRepository.save(user);
       }
     
       public async destroy(id: number): Promise<void> {
-        await this.delete(id);
+        await this.userRepository.delete(id);
       }
 
       

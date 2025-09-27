@@ -1,17 +1,24 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToMany, } from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn, } from 'typeorm';
 import { Contract } from '../Contracts/contract.entity';
 import { StatusType } from './status';
+import { Jwt } from '../Jwt/jwt.entity';
+import { Activate } from '../Activate/activate.entity';
 
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
-    id
+    idUser:number
 
     @Column()
     firstName:string
 
     @Column()
     lastName:string
+
+    @Column({
+        nullable:true
+    })
+    active:boolean
 
     @Column()
     birthDate:Date 
@@ -28,7 +35,21 @@ export class User {
     @Column()
     statut:StatusType
 
-    @OneToMany(type => Contract, contract => contract.user)
+    @Column({ nullable: true })
+    jwtId: number;
+    
+    @OneToOne(() => Jwt, (jwt) => jwt.user, { cascade: false })
+    @JoinColumn({ name: 'jwtId' })
+    jwt?: Jwt;
+    
+    @Column({ nullable: true })
+    activateId: number;
+    
+    @OneToOne(() => Activate, (activate) => activate.user, { cascade: false })
+    @JoinColumn({ name: 'activateId' })
+    activate?: Activate;
+    
+    @OneToMany(() => Contract, contract => contract.user)
     contracts: [];
 
 

@@ -5,32 +5,32 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: testdb   # ajoute un nom de DB
+      POSTGRES_DB: VyvGroup   # ajoute un nom de DB
     container_name: postgres
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     ports:
       - '5432:5432'
 
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: backend
-    environment:
-      - PORT=3000
-      - DB_HOST=db          # le hostname = nom du service docker
-      - DB_PORT=5432
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=postgres
-      - DB_NAME=VyvGroup
-    ports:
-      - '3000:3000'
-    depends_on:
-      - db
-    volumes:
-      - ./src:/app/src
-      - ./seed:/app/seed
+  #app:
+  #  build:
+   #   context: .
+    #  dockerfile: Dockerfile
+    # container_name: backend
+     #environment:
+     # - PORT=3000
+     # - DB_HOST=db          # le hostname = nom du service docker
+     # - DB_PORT=5432
+      #- DB_USERNAME=postgres
+      #- DB_PASSWORD=postgres
+      #- DB_NAME=VyvGroup
+    #ports:
+     # - '3000:3000'
+    #depends_on:
+     # - db
+   # volumes:
+    #  - ./src:/app/src
+     # - ./seed:/app/seed
 
   pgadmin:
     image: dpage/pgadmin4
@@ -43,3 +43,12 @@ services:
       - '5050:80'
     depends_on:
       - db
+
+  smtp4dev:
+    image: rnwood/smtp4dev:v3
+    restart: always
+    ports:
+      - '3600:80'
+      - '1090:25'
+      - '145:145'
+

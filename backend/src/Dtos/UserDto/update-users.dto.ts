@@ -1,11 +1,30 @@
 import { StatusType } from "src/Entities/User/status";
-
-export interface UpdateUsersDto {
-    firstName: string,
-    lastName: string,
-    birthDate: Date,
-    email: string,
-    password:string,
-    phoneNumber:string,
-    statut:StatusType
-}
+import { IsNotEmpty, IsEmail, IsDate, IsEnum, IsString } from 'class-validator';
+export class UpdateUsersDto {
+    @IsNotEmpty()
+    @IsString()
+    firstName: string;
+  
+    @IsNotEmpty()
+    @IsString()
+    lastName: string;
+  
+    @IsNotEmpty()
+    @IsDate()
+    birthDate: Date;
+  
+    @IsNotEmpty()
+    @IsEmail()
+    email: string;
+  
+    @IsNotEmpty()
+    @IsString()
+    password: string;
+  
+    @IsNotEmpty()
+    @IsString()
+    phoneNumber: string;
+  
+    @IsNotEmpty()
+    statut: StatusType;
+  }

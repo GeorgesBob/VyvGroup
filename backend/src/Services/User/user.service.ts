@@ -21,7 +21,7 @@ export class UsersService {
     }
   }
 
-  async create(user: User): Promise<User> {
+  async create(user:User): Promise<User> {
     try {
       return this.userRepository.store(user);
     } catch (error) {
