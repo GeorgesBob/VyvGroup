@@ -9,7 +9,7 @@ export class ActivateController {
 
     }
 
-    @Public()
+   // @Public()
     @Post()
     readCodeverif(@Body() code:any){
         return this.activateService.readCodeVerif(code);

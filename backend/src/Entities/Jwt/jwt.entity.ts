@@ -10,7 +10,13 @@ export class Jwt {
     token:string
 
     @Column()
+    refreshToken:string
+
+    @Column()
     expire:Date
+
+    @Column()
+    userId:number
 
     @OneToOne(() => User, (user) => user.jwt)
     @JoinColumn({name: 'userId'})

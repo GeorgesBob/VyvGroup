@@ -7,6 +7,7 @@ import { EmailService } from '../email/email.service';
 import { SignInDto } from 'src/Dtos/AuthDto/sign-in.dtos';
 import { UsersService } from '../User/user.service';
 import { JwtServices } from '../Jwt/jwt/jwt.service';
+import { Jwt } from 'src/Entities/Jwt/jwt.entity';
 const bcrypt = require('bcrypt');
 @Injectable()
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
 
 
     async create(user: User): Promise<{ message: string }> {
-        const activate = new Activate();
+        const activate = new Activate()
         try {
 
             // Hash du mot de passe
@@ -47,7 +48,7 @@ export class AuthService {
 
     async signIn(
        signInDto: SignInDto
-    ): Promise<{ access_token: string }> {
+    ): Promise<{ access_token: string, refresh_token:string }> {
         const user = await this.usersService.findOne(signInDto.email);
 
         const match = await bcrypt.compare(signInDto.password, user.password);
@@ -60,13 +61,50 @@ export class AuthService {
             throw new UnauthorizedException();
         }
 
+
+
         const payload = { sub: user.idUser, email: user.email, roles: user.statut };
+        const generateToken = await this.jwtService.generateToken(payload)
+        const jwt = new Jwt();
+        const expiration = new Date(Date.now() + 15 * 60 * 1000);
+        jwt.token = generateToken.accessToken;
+        jwt.refreshToken = generateToken.refreshToken;
+        jwt.userId = payload.sub;
+        jwt.expire = expiration;
+
+        const isAlreadyConnected = await this.jwtService.findOne(jwt.userId);
+
+        if(!isAlreadyConnected) {
+            await this.jwtService.insert(jwt);
+
+            return {
+                access_token: generateToken.accessToken,
+                refresh_token: generateToken.refreshToken
+            };
+        }
+
+
         return {
-            access_token: await this.jwtService.generateToken(payload),
+            access_token: isAlreadyConnected.token,
+            refresh_token: isAlreadyConnected.refreshToken
         };
+
+
+
+        
+    }
+    
+
+    async signOut (idUser:string): Promise<void> {
+        const jwt = new Jwt();
+        
+        jwt.token = "";
+        jwt.refreshToken = "";
+
+        await this.jwtService.destroy(Number(idUser));
     }
 
-    
+
 
 
 }

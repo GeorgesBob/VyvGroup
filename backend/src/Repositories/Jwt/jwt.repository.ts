@@ -29,7 +29,7 @@ export class JwtRepository extends Repository<Jwt>{
       }
     
       public async destroy(id: number): Promise<void> {
-        await this.jwtRepository.delete(id);
+        await this.jwtRepository.delete({userId: id});
       }
 
 

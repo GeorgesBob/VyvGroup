@@ -7,6 +7,7 @@ import { Request } from 'express';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
+
   constructor(private jwtService: JwtService, private reflector: Reflector) {}
  async canActivate(
     context: ExecutionContext,
@@ -23,19 +24,23 @@ export class RolesGuard implements CanActivate {
     ]);
 
     if (isPublic) {
-      // 💡 See this condition
       return true;
     }
 
 
+
     const request = context.switchToHttp().getRequest<Request>();
     const token = this.extractTokenFromHeader(request);
+
+    console.log("token : =>> ",token)
+    
     if (!token) {
       throw new UnauthorizedException();
     }
 
+
     try {
-      const payload = await this.jwtService.verifyAsync(token);
+      const payload = await this.jwtService.verifyAsync(token, {secret: process.env.JWT_SECRET});
 
       request['user'] = payload; // on stocke l’utilisateur dans la requête
 
