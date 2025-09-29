@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { jwtConstants } from 'src/Constants/constants';
 import { AuthController } from 'src/Controllers/Auth/auth.controller';
 import { Activate } from 'src/Entities/Activate/activate.entity';
 import { ActivateRepository } from 'src/Repositories/Activate/activate.repository';
@@ -19,7 +18,7 @@ import { ConfigModule } from '@nestjs/config';
   }),
   JwtModule.register({
     global: true,
-    secret: jwtConstants.secret,
+    secret: process.env.JWT_SECRET,
     signOptions: { expiresIn: '60000' },
   })],
   controllers: [AuthController],

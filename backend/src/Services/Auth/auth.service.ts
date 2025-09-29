@@ -56,11 +56,17 @@ export class AuthService {
             throw new UnauthorizedException();
         }
 
+        if(!user.active) {
+            throw new UnauthorizedException();
+        }
+
         const payload = { sub: user.idUser, email: user.email, roles: user.statut };
         return {
             access_token: await this.jwtService.generateToken(payload),
         };
     }
+
+    
 
 
 }
