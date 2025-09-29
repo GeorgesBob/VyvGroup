@@ -4,6 +4,7 @@ import { User } from './../../Entities/User/user.entity'
 
 @Injectable()
 export class UsersService {
+
   private logger = new Logger(UsersService.name);
   constructor(private readonly userRepository: UserRepository) {}
 
@@ -44,6 +45,23 @@ export class UsersService {
       throw new Error(error.message);
     }
   }
+
+  async findOne(email:string): Promise<User>{
+
+    try {
+      const user = await this.userRepository.findOne({where: {email:email}});
+      if (!user) {
+        throw new Error('User not found.');
+      }
+      return user;
+    } catch (error) {
+      this.logger.log(
+        `UsersService:findOne: ${JSON.stringify(error.message)}`,
+      );
+      throw new Error(error.message);
+    }
+
+  } 
 
   async update(id: number, user: Partial<User>): Promise<User> {
     try {

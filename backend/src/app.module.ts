@@ -47,7 +47,7 @@ import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
   AuthModule,
   ActivateModule,
   JwtModule,
-  EmailModule
+  EmailModule,
 ],
   controllers: [AppController],
   providers: [AppService],
