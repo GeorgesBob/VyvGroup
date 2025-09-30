@@ -23,7 +23,6 @@ export class AuthService {
 
             // Hash du mot de passe
             user.password = await bcrypt.hash(user.password, 10);
-            user.statut = 'adherent';
 
             // Insérer l'utilisateur en premier
             const insertResult = await this.userRepository.insert(user);
@@ -38,12 +37,27 @@ export class AuthService {
             // Si besoin d'envoyer l'email de vérification
             this.emailService.sendMailCodeVerif(activate);
 
-            const messageResponse = "Votre compte à bien été créer pour l'activer\n Veuilliez saisir votre code d'activation envoyer par email";
+            const messageResponse = "Votre compte à bien été créer pour l'activer \n Veuilliez saisir votre code d'activation envoyer par email";
 
             return { message: messageResponse }
         } catch (error: any) {
             throw new BadRequestException("Veuillez retentez votre inscription élément manquant ou compte déjà crée");
         }
+    }
+
+    async getBackCodeVerif(email:any) : Promise<{message: string}> {
+        const emailUser = await this.userRepository.findOne({ where: { email: email } })
+        if(emailUser.active != null) {
+            throw new BadRequestException("compte déjà activé");
+        }
+            const activate = new Activate();
+        
+            activate.user = { idUser: emailUser.idUser } as User; // seulement l'id pour la relation
+
+            this.activateService.generate(activate);
+            this.emailService.sendMailCodeVerifAgain(email);
+
+            return {message: "Nouveau de code de validation"}
     }
 
     async signIn(

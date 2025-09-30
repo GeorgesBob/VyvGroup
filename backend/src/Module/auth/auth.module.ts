@@ -14,12 +14,7 @@ import { JwtRepository } from 'src/Repositories/Jwt/jwt.repository';
 import { Jwt } from 'src/Entities/Jwt/jwt.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Activate, Jwt]), UserModule,
-  /*JwtModule.register({
-    global: true,
-    secret: process.env.JWT_SECRET,
-    signOptions: { expiresIn: '60000' },
-  })*/],
+  imports: [TypeOrmModule.forFeature([Activate, Jwt]), UserModule],
   controllers: [AuthController],
   providers: [AuthService, ActivateService, ActivateRepository,EmailService, JwtServices, JwtService, JwtRepository],
 })

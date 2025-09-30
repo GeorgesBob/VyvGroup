@@ -27,6 +27,7 @@ export class ActivateRepository extends Repository<Activate>{
         return this.findOneBy({ codeVerif: code });
         
       }
+      
     
       public async store(activate: Activate): Promise<Activate> {
         const newUser = this.create(activate);

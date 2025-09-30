@@ -23,10 +23,15 @@ export class AuthController {
        return this.authService.signIn(signInDto);
     }
 
+    @Public()
+    @Post('get-back-code')
+    getBackCode(@Body() body) {
+        return this.authService.getBackCodeVerif(body.email);
+    }
+
     @UseGuards(RolesGuard)
     @Post('logout')
     async signOut(@Req() req) {
-        console.log(req.user, " :req");
         await this.authService.signOut(req.user.sub);
     }
 }
