@@ -32,5 +32,13 @@ export class JwtRepository extends Repository<Jwt>{
         await this.jwtRepository.delete({userId: id});
       }
 
-
+      public async updateOne(
+        id: number,
+        updateJwt: Jwt,
+      ): Promise<Jwt | undefined> {
+        const jwt = await this.findById(id);
+        if (!jwt) return undefined;
+        Object.assign(jwt, updateJwt);
+        return this.save(jwt);
+      }
     }

@@ -4,11 +4,13 @@ import { Observable } from 'rxjs';
 import { IS_PUBLIC_KEY, IS_USER_ACTIVATE_KEY, ROLES_KEY } from 'src/Constants/constants';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { JwtServices } from 'src/Services/Jwt/jwt/jwt.service';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
 
-  constructor(private jwtService: JwtService, private reflector: Reflector) {}
+
+  constructor(private jwtService: JwtService, private readonly jwtServices: JwtServices,  private reflector: Reflector) {}
  async canActivate(
     context: ExecutionContext,
   ) : Promise<boolean> {
@@ -31,18 +33,23 @@ export class RolesGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest<Request>();
     const token = this.extractTokenFromHeader(request);
-
-    console.log("token : =>> ",token)
     
     if (!token) {
       throw new UnauthorizedException();
     }
 
+    
 
     try {
       const payload = await this.jwtService.verifyAsync(token, {secret: process.env.JWT_SECRET});
 
       request['user'] = payload; // on stocke l’utilisateur dans la requête
+
+      const isConnected = await this.jwtServices.findOne(payload.sub);
+
+      if(!isConnected) {
+        throw new UnauthorizedException();
+      }
 
       if (!requiredRoles || requiredRoles.length === 0) {
         return true; // pas de rôles requis → autorisé
@@ -56,7 +63,10 @@ export class RolesGuard implements CanActivate {
         throw new ForbiddenException('You do not have the required role');
       }
 
-    } catch {
+      
+
+    } catch (err:any) {
+      console.log(err);
       throw new UnauthorizedException();
     }
 

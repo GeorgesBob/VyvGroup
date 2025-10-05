@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Jwt } from 'src/Entities/Jwt/jwt.entity';
 import { JwtRepository } from 'src/Repositories/Jwt/jwt.repository';
+import { UsersService } from 'src/Services/User/user.service';
 @Injectable()
 export class JwtServices {
-    constructor (private jwtService: JwtService, private jwtRepository: JwtRepository){
+    constructor (private jwtService: JwtService, private jwtRepository: JwtRepository, usersService: UsersService){
     }
     async generateToken(tokenInfo:any) : Promise<{ accessToken:string, refreshToken:string }>{
 
@@ -30,7 +31,16 @@ export class JwtServices {
         }
     }
 
+    async updateById(id:number,body:Jwt) {
+        try {
+            return this.jwtRepository.updateOne(id, body);
+        } catch (err:any) {
+            console.log(err);
+        }
+    }
+
     async destroy(userId:number) {
+
         try {
             return this.jwtRepository.destroy(userId);
         } catch (error:any) {
@@ -45,6 +55,9 @@ export class JwtServices {
             console.log(err);
         }
     } 
+    
+
+
 
 
 }

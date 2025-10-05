@@ -1,28 +1,33 @@
 import { Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { CreateContractDto } from "src/Dtos/ContractDto/create-contracts.dto";
+import { UpdateContractDto } from "src/Dtos/ContractDto/update-contracts.dto";
+import { Contract } from "src/Entities/Contracts/contract.entity";
+import { ContractService } from "src/Services/Contrats/contract/contract.service";
 
 @Controller('contract')
 export class ContractController {
     
+    constructor(private readonly contractService: ContractService) {
 
-
+    }
+  
     @Post()
-    create(): string {
-        return "this action create a contract"
+    create(body: CreateContractDto):Promise<{message:string}> {
+        return this.contractService.create(body);
     }
 
     @Patch(':id')
-    update(@Param(':id') id : number) : string {
-        return 'this action update a contract'
+    update(@Param(':id') id : number, body:UpdateContractDto) : Promise<Contract> {
+        return this.contractService.udpateById(id, body);
     }
-
     @Get()
-    findAll():string {
-        return 'find all contract'
+    findAll():Promise<Contract[]> {
+        return this.contractService.findAll();
     }
 
     @Get(':id')
-    findOne(@Param(':id') id:number) :string {
-        return ' find one contract'
+    findOne(@Param(':id') id:number) :Promise<Contract> {
+        return this.contractService.findById(id);
     }
 
     @Delete(':id')

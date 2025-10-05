@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { UserRepository } from './../../Repositories/Users/user.repository';
 import { User } from './../../Entities/User/user.entity'
 
@@ -32,6 +32,7 @@ export class UsersService {
   }
 
   async findById(id: number): Promise<User> {
+
     try {
       const user = await this.userRepository.findById(id);
       if (!user) {
@@ -46,7 +47,7 @@ export class UsersService {
     }
   }
 
-  async findOne(email:string): Promise<User>{
+  async findByEmail(email:string): Promise<User>{
 
     try {
       const user = await this.userRepository.findOne({where: {email:email}});
@@ -56,7 +57,41 @@ export class UsersService {
       return user;
     } catch (error) {
       this.logger.log(
-        `UsersService:findOne: ${JSON.stringify(error.message)}`,
+        `UsersService:findByEmail: ${JSON.stringify(error.message)}`,
+      );
+      throw new Error(error.message);
+    }
+
+  } 
+
+  async findByFirstName(firstName:string): Promise<User[]>{
+    try {
+      const user = await this.userRepository.findBy({firstName:firstName});
+      if (!user) {
+        throw new Error('User not found.');
+      }
+      user
+      return user;
+    } catch (error) {
+      this.logger.log(
+        `UsersService:findByEmail: ${JSON.stringify(error.message)}`,
+      );
+      throw new Error(error.message);
+    }
+
+  } 
+
+  async findByLastName(lastName:string): Promise<User>{
+
+    try {
+      const user = await this.userRepository.findOne({where: {lastName:lastName}});
+      if (!user) {
+        throw new BadRequestException('User not found.');
+      }
+      return user;
+    } catch (error) {
+      this.logger.log(
+        `UsersService:findByLastName: ${JSON.stringify(error.message)}`,
       );
       throw new Error(error.message);
     }

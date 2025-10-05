@@ -63,7 +63,7 @@ export class AuthService {
     async signIn(
        signInDto: SignInDto
     ): Promise<{ access_token: string, refresh_token:string }> {
-        const user = await this.usersService.findOne(signInDto.email);
+        const user = await this.usersService.findByEmail(signInDto.email);
 
         const match = await bcrypt.compare(signInDto.password, user.password);
 
@@ -75,8 +75,6 @@ export class AuthService {
             throw new UnauthorizedException();
         }
 
-
-
         const payload = { sub: user.idUser, email: user.email, roles: user.statut };
         const generateToken = await this.jwtService.generateToken(payload)
         const jwt = new Jwt();
@@ -86,11 +84,22 @@ export class AuthService {
         jwt.userId = payload.sub;
         jwt.expire = expiration;
 
-        const isAlreadyConnected = await this.jwtService.findOne(jwt.userId);
+        const findTokenByUserId = await this.jwtService.findOne(jwt.userId);
 
-        if(!isAlreadyConnected) {
+        
+        const dateNow = new Date();
+        
+        
+
+        if(!findTokenByUserId){
             await this.jwtService.insert(jwt);
+            var isAlreadyConnected = await this.jwtService.findOne(jwt.userId);
+        }
 
+        if(!isAlreadyConnected || isAlreadyConnected.expire < dateNow) {
+            
+            await this.jwtService.updateById(isAlreadyConnected.userId,jwt);
+            
             return {
                 access_token: generateToken.accessToken,
                 refresh_token: generateToken.refreshToken
@@ -102,19 +111,9 @@ export class AuthService {
             access_token: isAlreadyConnected.token,
             refresh_token: isAlreadyConnected.refreshToken
         };
-
-
-
-        
     }
-    
 
     async signOut (idUser:string): Promise<void> {
-        const jwt = new Jwt();
-        
-        jwt.token = "";
-        jwt.refreshToken = "";
-
         await this.jwtService.destroy(Number(idUser));
     }
 

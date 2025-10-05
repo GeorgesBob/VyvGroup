@@ -1,1 +1,1 @@
-export type GarantieType = 'hospitalisation' | 'dentaire'|'optique'|'maternité'|'prévention';
+export type GarantieType = 'Bronze' | 'Or'|'Argent';
