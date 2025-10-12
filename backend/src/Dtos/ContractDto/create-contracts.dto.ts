@@ -29,6 +29,7 @@ export class CreateContractDto {
   @IsString()
   garantie: GarantieType;
 
+  @IsNotEmpty()
   user:User
 
 }

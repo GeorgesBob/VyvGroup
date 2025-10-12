@@ -56,5 +56,4 @@ export class ContractService {
     async udpateById(idContract:number,body:UpdateContractDto): Promise<Contract> {
        return this.contractRepository.updateOne(idContract, body);
     }
-    
 }

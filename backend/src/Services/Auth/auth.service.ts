@@ -113,6 +113,8 @@ export class AuthService {
         };
     }
 
+    
+
     async signOut (idUser:string): Promise<void> {
         await this.jwtService.destroy(Number(idUser));
     }

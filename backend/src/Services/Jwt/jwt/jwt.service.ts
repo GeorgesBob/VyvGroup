@@ -55,9 +55,4 @@ export class JwtServices {
             console.log(err);
         }
     } 
-    
-
-
-
-
 }
