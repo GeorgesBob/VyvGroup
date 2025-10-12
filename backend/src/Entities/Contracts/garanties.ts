@@ -1,0 +1,1 @@
+export type GarantieType = 'Bronze' | 'Or'|'Argent';

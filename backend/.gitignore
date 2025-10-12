@@ -1,0 +1,51 @@
+# Compiled output
+/dist
+/build
+/node_modules
+
+# Postgres & Docker volumes
+/pgdata
+/docker-data
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+# Tests & coverage
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea
+../../vscode/
+/.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# dotenv environment variable files
+.dev.env
+.env
+.env.*
+!.env.example   # <-- utile si tu veux commit un modèle
+
+# Temporary & runtime data
+.tmp
+.temp
+pids
+*.pid
+*.pid.lock
+*.seed
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
