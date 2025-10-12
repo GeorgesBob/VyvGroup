@@ -20,5 +20,5 @@ export class Jwt {
 
     @OneToOne(() => User, (user) => user.jwt)
     @JoinColumn({name: 'userId'})
-    user: User;
+    user: User; 
 }

@@ -2,8 +2,6 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { RolesGuard } from './Guards/roles/roles.guard';
 import { JwtService } from '@nestjs/jwt';
-import { User } from './Entities/User/user.entity';
-import { UsersService } from './Services/User/user.service';
 import { JwtServices } from './Services/Jwt/jwt/jwt.service';
 
 

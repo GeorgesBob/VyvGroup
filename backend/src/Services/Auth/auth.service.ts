@@ -93,12 +93,12 @@ export class AuthService {
 
         if(!findTokenByUserId){
             await this.jwtService.insert(jwt);
-            var isAlreadyConnected = await this.jwtService.findOne(jwt.userId);
         }
 
-        if(!isAlreadyConnected || isAlreadyConnected.expire < dateNow) {
-            
-            await this.jwtService.updateById(isAlreadyConnected.userId,jwt);
+        if(!findTokenByUserId || findTokenByUserId.expire < dateNow) {
+            if(findTokenByUserId !== null) {
+                await this.jwtService.updateById(findTokenByUserId.userId,jwt);
+            }
             
             return {
                 access_token: generateToken.accessToken,
@@ -108,8 +108,8 @@ export class AuthService {
 
 
         return {
-            access_token: isAlreadyConnected.token,
-            refresh_token: isAlreadyConnected.refreshToken
+            access_token: findTokenByUserId.token,
+            refresh_token: findTokenByUserId.refreshToken
         };
     }
 
